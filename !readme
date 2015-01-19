@@ -1,0 +1,5 @@
+Запуск приложения выполняется командой: 
+mvn clean package exec:java
+
+Путь к серверу в классе Main:
+  private static final String REST_URL         = "http://127.0.0.1:8080/pt-api-0.0.4-SNAPSHOT/rest";
