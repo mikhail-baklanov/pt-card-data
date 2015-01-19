@@ -12,7 +12,7 @@ public class Main {
 
     PassInfo p1 = addEntrance(sf, "barcode:123");
     PassInfo p2 = addEntrance(sf, "qr:Hello,Mihael!");
-    PassInfo p3 = addEntrance(sf, "mac:0023D4A33819!");
+    PassInfo p3 = addEntrance(sf, "mac:0023D4A33819");
     PassInfo p4 = addEntrance(sf, "qr:Hello,Denis!");
 
     List<PassInfo> list = sf.getPasses();

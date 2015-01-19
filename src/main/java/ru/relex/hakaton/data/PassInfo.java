@@ -2,20 +2,24 @@ package ru.relex.hakaton.data;
 
 import java.util.Date;
 
+import org.json.JSONObject;
+
 public class PassInfo {
-  
+
   static enum UserStatus {
-    NONE("none"),
-    WORK("work"),
-    AWAY("away"),
-    ABSENT("absent");
+      NONE ("none"),
+      WORK ("work"),
+      AWAY ("away"),
+      ABSENT ("absent");
     private String value;
+
     private UserStatus(String value) {
       this.value = value;
     }
+
     public static UserStatus mvalueOf(String value) {
       UserStatus result = NONE;
-      for (UserStatus userStatus: UserStatus.values()) {
+      for (UserStatus userStatus : UserStatus.values()) {
         if (userStatus.value.equalsIgnoreCase(value)) {
           result = userStatus;
           break;
@@ -24,13 +28,14 @@ public class PassInfo {
       return result;
     }
   }
-  private int id;
-  private int userId;
-  private String firstName;
-  private String middleName;
-  private String lastName;
+
+  private int        id;
+  private int        userId;
+  private String     firstName;
+  private String     middleName;
+  private String     lastName;
   private UserStatus status;
-  private Date   passTime;
+  private Date       passTime;
 
   public void setId(int id) {
     this.id = id;
@@ -86,6 +91,27 @@ public class PassInfo {
 
   public Date getPassTime() {
     return passTime;
+  }
+
+  public static PassInfo fromJSONObject(JSONObject obj) {
+    PassInfo user = new PassInfo();
+
+    try {
+      user.setFirstName(JSONUtils.getString(obj, "firstName"));
+      user.setLastName(JSONUtils.getString(obj, "lastName"));
+      user.setMiddleName(JSONUtils.getString(obj, "middleName"));
+      user.setPassTime(new Date(JSONUtils.getLong(obj, "passTime")));
+      user.setStatus(UserStatus.mvalueOf(JSONUtils.getString(obj, "status")));
+      user.setId(JSONUtils.getInt(obj, "id"));
+      user.setUserId(JSONUtils.getInt(obj, "userId"));
+    }
+    catch (Exception e) {
+      e.printStackTrace();
+      user = null;
+    }
+
+    return user;
+
   }
 
   @Override
