@@ -9,6 +9,7 @@ public class PassInfo {
   static enum UserStatus {
       NONE ("none"),
       WORK ("work"),
+      IGNORE ("ignore"),
       AWAY ("away"),
       ABSENT ("absent");
     private String value;
@@ -26,6 +27,10 @@ public class PassInfo {
         }
       }
       return result;
+    }
+
+    public String getValue() {
+      return value;
     }
   }
 

@@ -34,9 +34,9 @@ public class SenderFacade {
       JSONArray passes = new JSONObject(json).getJSONArray("passes");
 
       for (int i = 0; i < passes.length(); i++) {
-        System.out.println(passes.get(i));
-        // PassInfo user = new PassInfo();
-        // result.add();
+        //System.out.println(passes.get(i));
+        result.add(PassInfo.fromJSONObject(passes.getJSONObject(i)));
+        System.out.println(result.get(result.size()-1));
       }
     }
     catch (Exception e) {
@@ -55,7 +55,17 @@ public class SenderFacade {
       return null;
     }
     return PassInfo.fromJSONObject(new JSONObject(r.getBody()));
+  }
 
+  public boolean applyPassInfo(PassInfo pi) {
+    String body = "{\"id\":\"" + pi.getId() + "\", \"status\":\""+pi.getStatus().getValue()+"\"}";
+    System.out.println(body);
+    Responce r = HTTPRequest.execute("PUT", url, body);
+    System.out.println("code: " + r.getResponceCode() + ", body: " + r.getBody());
+    if (r.getResponceCode() < 200 || r.getResponceCode() >= 300) {
+      return false;
+    }
+    return true;
   }
 
 }
