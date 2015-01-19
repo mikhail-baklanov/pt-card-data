@@ -1,7 +1,10 @@
 package ru.relex.hakaton.data;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class PassInfo {
@@ -34,13 +37,22 @@ public class PassInfo {
     }
   }
 
-  private int        id;
-  private int        userId;
-  private String     firstName;
-  private String     middleName;
-  private String     lastName;
-  private UserStatus status;
-  private Date       passTime;
+  private int               id;
+  private int               userId;
+  private String            firstName;
+  private String            middleName;
+  private String            lastName;
+  private UserStatus        status;
+  private Date              passTime;
+  private List<UserMessage> userMessages = new ArrayList<UserMessage>();
+
+  public List<UserMessage> getUserMessages() {
+    return userMessages;
+  }
+
+  public void addUserMessage(UserMessage userMessage) {
+    userMessages.add(userMessage);
+  }
 
   public void setId(int id) {
     this.id = id;
@@ -109,6 +121,26 @@ public class PassInfo {
       user.setStatus(UserStatus.mvalueOf(JSONUtils.getString(obj, "status")));
       user.setId(JSONUtils.getInt(obj, "id"));
       user.setUserId(JSONUtils.getInt(obj, "userId"));
+      try {
+        JSONArray userMessages = obj.getJSONArray("userMessages");
+        System.out.println("json user messages: " + userMessages);
+        if (userMessages != null) {
+          for (int i = 0; i < userMessages.length(); i++) {
+            user.addUserMessage(UserMessage.fromJSONObject(userMessages.getJSONObject(i)));
+          }
+        }
+      }
+      catch (Exception e) {
+        try {
+          JSONObject userMessage = obj.getJSONObject("userMessages");
+          System.out.println("json user messages: " + userMessage);
+          if (userMessage != null) {
+              user.addUserMessage(UserMessage.fromJSONObject(userMessage));
+          }
+        }
+        catch (Exception e2) {
+        }
+      }
     }
     catch (Exception e) {
       e.printStackTrace();
@@ -121,9 +153,9 @@ public class PassInfo {
 
   @Override
   public String toString() {
-    return "UserInfo [id=" + id + ", userId=" + userId + ", firstName=" + firstName
+    return "PassInfo [id=" + id + ", userId=" + userId + ", firstName=" + firstName
         + ", middleName=" + middleName + ", lastName=" + lastName + ", status=" + status
-        + ", passTime=" + passTime + "]";
+        + ", passTime=" + passTime + ", userMessages=" + userMessages + "]";
   }
 
 }

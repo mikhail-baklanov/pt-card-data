@@ -13,10 +13,15 @@ public class Main {
     SenderFacade sf = new SenderFacade(REST_URL + "/passway/entrance", "");
 
     PassInfo p1 = addEntrance(sf, "barcode:123");
+    System.out.println("p1: " + p1);
     PassInfo p2 = addEntrance(sf, "barcode:123");
+    System.out.println("p2: " + p1);
     PassInfo p3 = addEntrance(sf, "qr:Hello,Mihael!");
+    System.out.println("p3: " + p1);
     PassInfo p4 = addEntrance(sf, "mac:0023D4A33819");
+    System.out.println("p4: " + p1);
     PassInfo p5 = addEntrance(sf, "qr:Hello,Denis!");
+    System.out.println("p5: " + p1);
 
     List<PassInfo> list = sf.getPasses();
     if (list.size() == 0) {
